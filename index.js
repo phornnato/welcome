@@ -3,11 +3,12 @@ const TelegramBot = require("node-telegram-bot-api");
 
 const TOKEN = "8658959369:AAGGAMiDzMF9BNr_0HGy_RQl3BW2QTn1hQQ";
 
-const bot = new TelegramBot(TOKEN);
-const app = express();
+const bot = new TelegramBot(TOKEN, { polling: false });
 
+const app = express();
 app.use(express.json());
 
+// Webhook receiver
 app.post("/webhook", (req, res) => {
 
     const update = req.body;
@@ -29,8 +30,9 @@ app.post("/webhook", (req, res) => {
     res.sendStatus(200);
 });
 
+// IMPORTANT → Render needs this port binding
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log("Bot server running");
+    console.log("Bot running on port " + PORT);
 });
